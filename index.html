@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="assets/index.css">
@@ -23,13 +25,14 @@
             </ul>
             <span style="font-size: 17px; font-weight: 500;">Dla systemu Android:</span>
             <ul>
-                <li>Upewnij się, że używasz przeglądarki google lub chrome</li>
+                <li>Upewnij się, że używasz przeglądarki Google lub Chrome</li>
                 <li>Uzupełnij dane i kliknij wejdź</li>
                 <li>Naciśji 3 kropki -> Dodaj do ekranu głównego</li>
             </ul>
         </div>
     </div>
 
+    <!-- Sekcja dodawania zdjęcia -->
     <div class="upload">
         <p class="error">To pole jest wymagane</p>
         <img class="upload_uploaded">
@@ -38,8 +41,13 @@
             <img class="upload_image" src="https://i.imgur.com/vwIQErh.png">
             <p class="upload_text">Dodaj zdjęcie</p>
         </div>
+
+        <!-- Pole wyboru pliku ukryte -->
+        <input type="file" id="photo" accept="image/*" style="display:none;">
+        <div id="photo-preview"></div>
     </div>
 
+    <!-- Pozostałe pola formularza -->
     <div class="input_holder">
         <input type="text" id="name" class="input" placeholder="">
         <span class="placeholder">Imię (imiona)</span>
@@ -59,12 +67,8 @@
             <img class="selected_arrow" src="https://i.imgur.com/RXsdBB6.png">
         </div>
         <div class="option_box">
-            <div class="selector_option" id="m">
-                Mężczyzna
-            </div>
-            <div class="selector_option" id="k">
-                Kobieta
-            </div>
+            <div class="selector_option" id="m">Mężczyzna</div>
+            <div class="selector_option" id="k">Kobieta</div>
         </div>
     </div>
 
@@ -72,14 +76,8 @@
         <p class="top_info">Data urodzenia</p>
         <div class="date_grid">
             <input class="date_input" placeholder="DD" type="number">
-    
-            </input>
             <input class="date_input" placeholder="MM" type="number">
-    
-            </input>
             <input class="date_input" placeholder="YYYY" type="number">
-    
-            </input>
         </div>
         <p class="error">Wprowadź prawidłową datę</p>
     </div>
@@ -142,6 +140,36 @@
 
     <a class="go">wejdź</a>
 
+    <!-- Skrypty -->
     <script src="assets/index.js"></script>
     <script src="assets/manifest.js"></script>
+
+    <!-- DODANE: obsługa wgrywania zdjęcia -->
+    <script>
+        const uploadGrid = document.querySelector('.upload_grid');
+        const fileInput = document.getElementById('photo');
+        const previewDiv = document.getElementById('photo-preview');
+
+        uploadGrid.addEventListener('click', () => {
+            fileInput.click(); // otwiera okno wyboru pliku
+        });
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewDiv.innerHTML = "";
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = "200px"; // dopasuj według potrzeby
+                img.style.marginTop = "10px";
+                previewDiv.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
 </body>
+</html>
+

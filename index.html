@@ -33,7 +33,7 @@
     </div>
 
     <div class="upload">
-        <p class="error">To pole jest wymagane</p>
+        <p class="error" id="errorMessage" style="display:none">To pole jest wymagane</p>
         <input type="file" id="fileInput" accept="image/*" style="display:none">
         <img class="upload_uploaded" id="previewImage">
         <div class="upload_uploading" id="loadingCircle" style="display:none"></div>
@@ -143,17 +143,21 @@
       const fileInput = document.getElementById("fileInput");
       const previewImage = document.getElementById("previewImage");
       const loadingCircle = document.getElementById("loadingCircle");
+      const errorMessage = document.getElementById("errorMessage");
 
       fileInput.addEventListener("change", function(event) {
         const file = event.target.files[0];
         if (file) {
-          loadingCircle.style.display = "block"; // pokaż kółko
+          loadingCircle.style.display = "block";
+          errorMessage.style.display = "none"; 
           const reader = new FileReader();
           reader.onload = function(e) {
             previewImage.src = e.target.result;
-            loadingCircle.style.display = "none"; // ukryj kółko
+            loadingCircle.style.display = "none"; 
           };
           reader.readAsDataURL(file);
+        } else {
+          errorMessage.style.display = "block"; 
         }
       });
     </script>
